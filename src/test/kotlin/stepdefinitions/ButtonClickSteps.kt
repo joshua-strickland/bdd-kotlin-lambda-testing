@@ -1,15 +1,17 @@
 package stepdefinitions
 
+import AppiumWrapperTools
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.options.UiAutomator2Options
 import io.cucumber.java.After
 import io.cucumber.java.Before
 import io.cucumber.java8.En
-import org.openqa.selenium.By
+import screens.DetailScreen
+import screens.HomeScreen
 import java.net.URL
 
 // Implement the 'En' interface to use the English Gherkin lambda DSL.
-class ButtonClickSteps : En {
+class ButtonClickSteps : En, AppiumWrapperTools() {
 
     private var driver: AndroidDriver? = null
 
@@ -28,6 +30,7 @@ class ButtonClickSteps : En {
 
         driver = AndroidDriver(url, options)
         driver?.setSetting("disableIdLocatorAutocompletion", true)
+        setDriver(driver)
         //println(driver?.pageSource)
     }
 
@@ -42,17 +45,24 @@ class ButtonClickSteps : En {
             //placeholder
         }
 
-        When("I click on the button for screen 1") {
-            // Appium will look for an element with the resource-id "screen1"
-            val screen1Button = driver?.findElement(By.id("screen1"))
-            assert(screen1Button != null) { "Button with resource ID 'screen1' not found." }
-            screen1Button?.click()
-            println("Clicked on the button with resource ID 'screen1'.")
+        When("The user clicks on the button for screen 1") {
+            tapOn(HomeScreen.SCREEN_1_NAV_BUTTON)
         }
 
-        Then("the first screen should be displayed") {
+        Then("the user is directed to screen 1") {
+            get(DetailScreen.TITLE)?.isDisplayed
+        }
 
-            println("Verification step passed (placeholder).")
+        And("the screen 1 title should read screen 1") {
+            assertTextOf(DetailScreen.TITLE, "Screen 1")
+        }
+
+        When("the user taps on the go back button") {
+            tapOn(DetailScreen.GO_BACK_BUTTON)
+        }
+
+        Then("the user is directed to the home screen") {
+            get(HomeScreen.TITLE)?.isDisplayed
         }
     }
 }
