@@ -12,3 +12,10 @@ Feature: Main Screen Navigation
     Then the user is directed to screen 1
     When the user taps on the go back button
     Then the user is directed to the home screen
+
+  Scenario: Navigate back to the homescreen from screen 2
+    When The user clicks on the button for screen 2
+    Then the user is directed to screen 2
+    When the user taps on the go back button
+    Then the user is directed to the home screen
+

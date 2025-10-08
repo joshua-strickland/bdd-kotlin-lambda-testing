@@ -64,5 +64,13 @@ class ButtonClickSteps : En, AppiumWrapperTools() {
         Then("the user is directed to the home screen") {
             get(HomeScreen.TITLE)?.isDisplayed
         }
+
+        When("The user clicks on the button for screen 2") {
+            tapOn(HomeScreen.SCREEN_2_NAV_BUTTON)
+        }
+
+        Then("the user is directed to screen 2") {
+            assertTextOf(DetailScreen.TITLE, "Screen 2")
+        }
     }
 }
